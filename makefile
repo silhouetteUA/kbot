@@ -66,4 +66,3 @@ push:
 clean:
 	rm -rf $(APP_NAME)
 	docker rmi $(GCR_REGISTRY_LOCATION)/$(GCR_PROJECT_ID)/$(APP_NAME):$(APP_VERSION)-$(ARCH)
-
