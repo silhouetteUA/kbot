@@ -5,6 +5,7 @@ COPY . .
 ARG OS
 RUN make $OS
 
+
 FROM scratch
 WORKDIR /
 COPY --from=builder /go/src/app/kbot .
