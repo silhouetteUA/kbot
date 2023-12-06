@@ -3,7 +3,7 @@ APP_VERSION := $(shell git describe --tags --abbrev=0)
 GCR_REGISTRY_LOCATION := gcr.io
 REGISTRY_LOCATION := ghcr.io
 GCR_PROJECT_ID := devops-course-prometheus
-USER_ID := silhouetteUA
+USER_ID := silhouetteua
 OS := linux
 ARCH := amd64
 MAKE_REF := linux
@@ -60,7 +60,7 @@ build-info:
 # 	docker build . -t $(GCR_REGISTRY_LOCATION)/$(GCR_PROJECT_ID)/$(APP_NAME):$(APP_VERSION)-$(ARCH) --build-arg OS=$(MAKE_REF)
 
 image: 
-	docker build . -t $(REGISTRY_LOCATION)/$(USER_ID)/$(APP_NAME):$(APP_VERSION)-$(ARCH) --build-arg OS=$(MAKE_REF)
+	docker build . -t $(REGISTRY_LOCATION)/$(USER_ID)/$(APP_NAME):$(APP_VERSION)-$(OS)-$(ARCH) --build-arg OS=$(MAKE_REF)
 
 image-build-info:
 	echo "Starting image creation: $(GCR_REGISTRY_LOCATION)/$(GCR_PROJECT_ID)/$(APP_NAME):$(APP_VERSION) with ARCH=$(ARCH)"
