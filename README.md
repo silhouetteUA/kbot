@@ -1,6 +1,9 @@
 # kbot
 devops week2, go application from scratch
 
+
+[![Build Status](https://github.com/silhouetteUA/kbot/workflows/CI/CD for kbot/badge.svg)](https://github.com/silhouetteUA/kbot/actions)
+
 Link to bot:
 
 t.me/yevheniifirsteverbot_bot
