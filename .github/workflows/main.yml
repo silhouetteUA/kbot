@@ -18,6 +18,11 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Set-Up_GOLANG
+        uses: actions/setup-go@v4
+        with:
+          go-version: '1.21.3'
+
       - name: Test
         run: make test
 
