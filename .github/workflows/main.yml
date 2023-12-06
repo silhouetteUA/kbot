@@ -23,14 +23,43 @@ jobs:
         with:
           go-version: '1.21.3'
 
-      # - name: Test
-      #   run: make test
+      - name: Test
+        run: make test
 
-      # - name: Info
-      #   run: make build-info
+      - name: Info
+        run: make build-info
+
       - name: Log in to the Container registry
         uses: docker/login-action@65b78e6e13532edd9afa3aa52ac7964289d1a9c1
         with:
           registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build Image
+        run: make image
+      
+      - name: Push Image to ghcr.io
+        run: make push
+
+
+
+  # cd:
+  #     name: CD
+  #     needs: ci
+  #     runs-on: ubuntu-latest
+
+  #     steps:
+  #     - uses: actions/checkout@v3
+  #       with:
+  #         fetch-depth: 0
+  #     - run: echo "VERSION=$(git describe --tags --abbrev=0)-$(git rev-parse --short HEAD)" >> $GITHUB_ENV
+
+  #     - uses: mikefarah/yq@master
+  #       with:
+  #         cmd: yq -i '.image.tag=strenv(VERSION) | .image.arch=strenv(TARGETARCH)' helm/values.yaml
+  #     - run: |
+  #         git config user.name github-actions
+  #         git config user.email github-actions@github.com
+  #         git commit -am "update version $VERSION"
+  #         git push
