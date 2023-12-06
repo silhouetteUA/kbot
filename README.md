@@ -2,7 +2,8 @@
 devops week2, go application from scratch
 
 
-[![Build Status](https://github.com/silhouetteUA/kbot/workflows/CI/CD for kbot/badge.svg)](https://github.com/silhouetteUA/kbot/actions)
+![Build Status](https://github.com/silhouetteUA/kbot/workflows/CI/CD for kbot/badge.svg)
+
 
 Link to bot:
 
