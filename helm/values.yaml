@@ -1,16 +1,14 @@
 replicaCount: 1
 namespace: course
-
 image:
   # repository: evgeniyjay
   # tag: v1.0.1
   # arch: amd64
   registry: "ghcr.io"
   repository: "silhouetteua/kbot"
-  tag: "v1.0.4-e200f0f"
+  tag: "v1.0.5-9fea0d4"
   os: linux
   arch: amd64
-
 env:
   secretRef: kbot-teletoken
   name: TELE_TOKEN
