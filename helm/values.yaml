@@ -1,0 +1,12 @@
+replicaCount: 1
+namespace: course
+
+image:
+  repository: evgeniyjay
+  tag: v1.0.1
+  arch: amd64
+
+env:
+  secretRef: kbot-teletoken
+  name: TELE_TOKEN
+  key: TELE_TOKEN
