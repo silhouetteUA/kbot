@@ -6,7 +6,7 @@ image:
   # arch: amd64
   registry: "ghcr.io"
   repository: "silhouetteua/kbot"
-  tag: "v1.0.5-9fea0d4"
+  tag: "v1.0.5-af99779"
   os: linux
   arch: amd64
 env:
