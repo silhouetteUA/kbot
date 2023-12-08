@@ -3,6 +3,7 @@ APP_VERSION := $(shell git describe --tags --abbrev=0)
 HASH := $(shell git rev-parse --short HEAD)
 GCR_REGISTRY_LOCATION := gcr.io
 REGISTRY_LOCATION := ghcr.io
+DOCKERHUB_USER := evgeniyjay
 GCR_PROJECT_ID := devops-course-prometheus
 USER_ID := silhouetteua
 OS := linux
@@ -60,8 +61,11 @@ build-info:
 # image: image-build-info
 # 	docker build . -t $(GCR_REGISTRY_LOCATION)/$(GCR_PROJECT_ID)/$(APP_NAME):$(APP_VERSION)-$(ARCH) --build-arg OS=$(MAKE_REF)
 
+# image: 
+# 	docker build . -t $(REGISTRY_LOCATION)/$(USER_ID)/$(APP_NAME):$(APP_VERSION)-$(HASH)-$(OS)-$(ARCH) --build-arg OS=$(MAKE_REF)
+
 image: 
-	docker build . -t $(REGISTRY_LOCATION)/$(USER_ID)/$(APP_NAME):$(APP_VERSION)-$(HASH)-$(OS)-$(ARCH) --build-arg OS=$(MAKE_REF)
+	docker build . -t $(DOCKERHUB_USER)/$(APP_NAME):$(APP_VERSION)-$(HASH)-$(OS)-$(ARCH) --build-arg OS=$(MAKE_REF)
 
 image-build-info:
 	echo "Starting image creation: $(GCR_REGISTRY_LOCATION)/$(GCR_PROJECT_ID)/$(APP_NAME):$(APP_VERSION) with ARCH=$(ARCH)"
@@ -69,8 +73,20 @@ image-build-info:
 # push:
 # 	docker push $(GCR_REGISTRY_LOCATION)/$(GCR_PROJECT_ID)/$(APP_NAME):$(APP_VERSION)-$(ARCH)
 
+# push:
+# 	docker push $(REGISTRY_LOCATION)/$(USER_ID)/$(APP_NAME):$(APP_VERSION)-$(HASH)-$(OS)-$(ARCH)
+
 push:
-	docker push $(REGISTRY_LOCATION)/$(USER_ID)/$(APP_NAME):$(APP_VERSION)-$(HASH)-$(OS)-$(ARCH)
+	docker push $(DOCKERHUB_USER)/$(APP_NAME):$(APP_VERSION)-$(HASH)-$(OS)-$(ARCH)
+
+push-linux:
+	docker push $(DOCKERHUB_USER)/$(APP_NAME):$(APP_VERSION)-$(HASH)-linux-amd64
+
+push-macos:
+	docker push $(DOCKERHUB_USER)/$(APP_NAME):$(APP_VERSION)-$(HASH)-darwin-amd64
+
+push-windows:
+	docker push $(DOCKERHUB_USER)/$(APP_NAME):$(APP_VERSION)-$(HASH)-windows-amd64
 
 clean:
 	rm -rf $(APP_NAME)
