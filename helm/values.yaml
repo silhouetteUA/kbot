@@ -1,7 +1,7 @@
 replicaCount: 1
 namespace: course
 image:
-  repository: "evgeniyjay/kbot"
+  repository: "evgeniyjay"
   # tag: v1.0.1
   # arch: amd64
   # registry: "ghcr.io"
