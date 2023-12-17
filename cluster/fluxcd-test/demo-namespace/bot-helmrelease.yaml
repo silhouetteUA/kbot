@@ -11,4 +11,4 @@ spec:
       sourceRef:
         kind: GitRepository
         name: kbot
-  interval: 1m0s
+  interval: 1m1s
