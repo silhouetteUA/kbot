@@ -65,7 +65,7 @@ build-info:
 # 	docker build . -t $(REGISTRY_LOCATION)/$(USER_ID)/$(APP_NAME):$(APP_VERSION)-$(HASH)-$(OS)-$(ARCH) --build-arg OS=$(MAKE_REF)
 
 image: 
-	docker build . -t $(DOCKERHUB_USER)/$(APP_NAME):$(APP_VERSION)-$(HASH)-$(OS)-$(ARCH) --build-arg OS=$(MAKE_REF)
+	docker build . -t $(REGISTRY_LOCATION)/$(USER_ID)/$(APP_NAME):$(APP_VERSION)-$(HASH)-$(OS)-$(ARCH) --build-arg OS=$(MAKE_REF)
 
 image-build-info:
 	echo "Starting image creation: $(GCR_REGISTRY_LOCATION)/$(GCR_PROJECT_ID)/$(APP_NAME):$(APP_VERSION) with ARCH=$(ARCH)"
@@ -77,7 +77,7 @@ image-build-info:
 # 	docker push $(REGISTRY_LOCATION)/$(USER_ID)/$(APP_NAME):$(APP_VERSION)-$(HASH)-$(OS)-$(ARCH)
 
 push:
-	docker push $(DOCKERHUB_USER)/$(APP_NAME):$(APP_VERSION)-$(HASH)-$(OS)-$(ARCH)
+	docker push $(REGISTRY_LOCATION)/$(USER_ID)/$(APP_NAME):$(APP_VERSION)-$(HASH)-$(OS)-$(ARCH)
 
 push-linux:
 	docker push $(DOCKERHUB_USER)/$(APP_NAME):$(APP_VERSION)-$(HASH)-linux-amd64
