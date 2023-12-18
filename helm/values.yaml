@@ -1,11 +1,11 @@
 replicaCount: 1
 namespace: course
 image:
-  repository: "evgeniyjay"
+  #repository: "evgeniyjay"
   # tag: v1.0.1
   # arch: amd64
-  # registry: "ghcr.io"
-  # repository: "silhouetteua/kbot"
+  registry: "ghcr.io"
+  repository: "silhouetteua"
   tag: "v1.0.5-b1e073b"
   os: linux
   arch: amd64
