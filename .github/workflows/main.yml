@@ -25,7 +25,7 @@ jobs:
       - name: 'auth'
         uses: 'google-github-actions/auth@v2'
         with:
-          service_account_key: ${{ secrets.GCP_SA_KEY }}
+          credentials_json: ${{ secrets.GCP_SA_KEY }}
       - name: Access GCP Secret Manager Secret
         run: |
           SECRET_VALUE=$(gcloud secrets versions access latest --secret=${{ env.SECRET_NAME }})
