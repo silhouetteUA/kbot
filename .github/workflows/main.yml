@@ -57,6 +57,7 @@ jobs:
           sops -e -gcp-kms projects/devops-course-prometheus/locations/global/keyRings/sops-flux/cryptoKeys/sops-keys-flux --encrypted-regex '^(TELE_TOKEN)$' secret.yaml > secret-encrypted.yaml
           cat secret-encrypted.yaml
           
+          
   # ci:
   #   name: continious integration
   #   runs-on: ubuntu-latest
