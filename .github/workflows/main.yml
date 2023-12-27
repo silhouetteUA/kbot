@@ -17,44 +17,44 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     
-      - name: 'auth'
-        uses: 'google-github-actions/auth@v2'
-        with:
-          credentials_json: ${{ secrets.GCP_SA_KEY }}
+#       - name: 'auth'
+#         uses: 'google-github-actions/auth@v2'
+#         with:
+#           credentials_json: ${{ secrets.GCP_SA_KEY }}
           
-##### This step is optional ######
-      - name: Set up Google Cloud SDK
-        uses: google-github-actions/setup-gcloud@v2
-        with:
-          project_id: ${{ secrets.GCP_PROJECT_ID }}
-##################################
+# ##### This step is optional ######
+#       - name: Set up Google Cloud SDK
+#         uses: google-github-actions/setup-gcloud@v2
+#         with:
+#           project_id: ${{ secrets.GCP_PROJECT_ID }}
+# ##################################
           
-      - name: Install sops
-        run: |
-          curl -LO https://github.com/getsops/sops/releases/download/v3.8.1/sops-v3.8.1.linux.amd64 && \
-          mv sops-v3.8.1.linux.amd64 /usr/local/bin/sops && \
-          chmod +x /usr/local/bin/sops && \
-          sops -version
+#       - name: Install sops
+#         run: |
+#           curl -LO https://github.com/getsops/sops/releases/download/v3.8.1/sops-v3.8.1.linux.amd64 && \
+#           mv sops-v3.8.1.linux.amd64 /usr/local/bin/sops && \
+#           chmod +x /usr/local/bin/sops && \
+#           sops -version
 
-      - name: Install kubectl
-        run: |
-          curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl" && \
-          sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl && \
-          kubectl version --client
+#       - name: Install kubectl
+#         run: |
+#           curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl" && \
+#           sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl && \
+#           kubectl version --client
 
-      - name: Prepare an unencrypted file
-        run: |
-          kubectl -n course create secret generic kbot-teletoken --from-literal TELE_TOKEN=$(gcloud secrets versions access latest --secret=${{ env.SECRET_NAME }}) --dry-run=client -o yaml > secret.yaml
+#       - name: Prepare an unencrypted file
+#         run: |
+#           kubectl -n course create secret generic kbot-teletoken --from-literal TELE_TOKEN=$(gcloud secrets versions access latest --secret=${{ env.SECRET_NAME }}) --dry-run=client -o yaml > secret.yaml
 
-      - name: Encrypt file with sops
-        run: |
-          sops -e -gcp-kms projects/devops-course-prometheus/locations/global/keyRings/sops-flux/cryptoKeys/sops-keys-flux --encrypted-regex '^(TELE_TOKEN)$' secret.yaml > secret-encrypted.yaml
-          cat secret-encrypted.yaml
+#       - name: Encrypt file with sops
+#         run: |
+#           sops -e -gcp-kms projects/devops-course-prometheus/locations/global/keyRings/sops-flux/cryptoKeys/sops-keys-flux --encrypted-regex '^(TELE_TOKEN)$' secret.yaml > secret-encrypted.yaml
+#           cat secret-encrypted.yaml
 
       - name: Clone Flux repo
         uses: actions/checkout@v4
         with:
-          repository: 'git@github.com:silhouetteUA/gitops-flux-sops.git'
+          repository: 'https://github.com/silhouetteUA/gitops-flux-sops'
           path: 'flux-repo'
 
       - name: Add encrypted file
