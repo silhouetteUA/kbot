@@ -20,14 +20,28 @@ jobs:
         uses: 'google-github-actions/auth@v2'
         with:
           credentials_json: ${{ secrets.GCP_SA_KEY }}
-      # - name: Set up Google Cloud SDK
-      #   uses: google-github-actions/setup-gcloud@v2
-      #   with:
-      #     project_id: ${{ secrets.GCP_PROJECT_ID }}
+##### This step is optional ######
+      - name: Set up Google Cloud SDK
+        uses: google-github-actions/setup-gcloud@v2
+        with:
+          project_id: ${{ secrets.GCP_PROJECT_ID }}
+##################################
       - name: Access GCP Secret Manager Secret
         run: |
           SECRET_VALUE=$(gcloud secrets versions access latest --secret=${{ env.SECRET_NAME }})
           echo "Secret Value: $SECRET_VALUE"
+      - name: Install sops
+        run: |
+          curl -Lo /usr/local/bin/sops https://github.com/mozilla/sops/releases/download/v3.7.1/sops-v3.7.1.linux && \
+          chmod +x /usr/local/bin/sops && \
+          sops -version
+
+      - name: Install kubectl
+        run: |
+          curl -Lo /usr/local/bin/kubectl https://storage.googleapis.com/kubernetes-release/release/v1.22.2/bin/linux/amd64/kubectl && \
+          chmod +x /usr/local/bin/kubectl && \
+          kubectl version
+          
   # ci:
   #   name: continious integration
   #   runs-on: ubuntu-latest
