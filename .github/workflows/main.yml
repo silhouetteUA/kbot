@@ -51,9 +51,14 @@ jobs:
           sops -e -gcp-kms projects/devops-course-prometheus/locations/global/keyRings/sops-flux/cryptoKeys/sops-keys-flux --encrypted-regex '^(TELE_TOKEN)$' secret.yaml > secret-encrypted.yaml
           cat secret-encrypted.yaml
 
-      - name: Clone Flux repo and add encrypted secret
+      - name: Clone Flux repo
+        uses: actions/checkout@v4
+        with:
+          repository: 'git@github.com:silhouetteUA/gitops-flux-sops.git'
+          path: 'flux-repo'
+
+      - name: Add encrypted file
         run: |
-          git clone git@github.com:silhouetteUA/gitops-flux-sops.git flux-repo
           cd flux-repo
           git config user.name github-actions
           git config user.email github-actions@github.com          
