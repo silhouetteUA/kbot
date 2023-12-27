@@ -28,11 +28,6 @@ jobs:
         with:
           project_id: ${{ secrets.GCP_PROJECT_ID }}
 ##################################
-
-      - name: Access GCP Secret Manager Secret
-        run: |
-          SECRET_VALUE=$(gcloud secrets versions access latest --secret=${{ env.SECRET_NAME }})
-          echo "Secret Value: $SECRET_VALUE"
           
       - name: Install sops
         run: |
@@ -49,8 +44,7 @@ jobs:
 
       - name: Prepare an unencrypted file
         run: |
-          kubectl -n course create secret generic kbot-teletoken --from-literal TELE_TOKEN=$(gcloud secrets versions access latest --secret=${{ env.SECRET_NAME }}) --dry-run=client -o yaml > secret.yaml && \
-          cat secret.yaml
+          kubectl -n course create secret generic kbot-teletoken --from-literal TELE_TOKEN=$(gcloud secrets versions access latest --secret=${{ env.SECRET_NAME }}) --dry-run=client -o yaml > secret.yaml
 
       - name: Encrypt file with sops
         run: |
