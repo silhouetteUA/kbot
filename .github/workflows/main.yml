@@ -54,7 +54,7 @@ jobs:
       - name: Clone Flux repo
         uses: actions/checkout@v4
         with:
-          repository: 'https://github.com/silhouetteUA/gitops-flux-sops'
+          repository: 'silhouetteUA/gitops-flux-sops'
           path: 'flux-repo'
 
       - name: Add encrypted file
