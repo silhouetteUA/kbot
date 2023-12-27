@@ -32,15 +32,15 @@ jobs:
           echo "Secret Value: $SECRET_VALUE"
       - name: Install sops
         run: |
-          curl -Lo /usr/local/bin/sops https://github.com/mozilla/sops/releases/download/v3.7.1/sops-v3.7.1.linux && \
+          curl -Lo /usr/local/bin/sops https://github.com/mozilla/sops/releases/download/v3.8.1/sops-v3.8.1.linux && \
           chmod +x /usr/local/bin/sops && \
           sops -version
 
       - name: Install kubectl
         run: |
-          curl -Lo /usr/local/bin/kubectl https://storage.googleapis.com/kubernetes-release/release/v1.22.2/bin/linux/amd64/kubectl && \
-          chmod +x /usr/local/bin/kubectl && \
-          kubectl version
+          curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl" && \
+          sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl && \
+          kubectl version --client
           
   # ci:
   #   name: continious integration
