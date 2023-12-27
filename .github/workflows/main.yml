@@ -49,7 +49,7 @@ jobs:
 
       - name: Prepare an unencrypted file
         run: |
-          kubectl -n course create secret generic kbot-teletoken --from-literal TELE_TOKEN=$SECRET_VALUE --dry-run=client -o yaml > secret.yaml && \
+          kubectl -n course create secret generic kbot-teletoken --from-literal TELE_TOKEN=${{ SECRET_VALUE }} --dry-run=client -o yaml > secret.yaml && \
           cat secret.yaml
 
       - name: Encrypt file with sops
