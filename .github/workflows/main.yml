@@ -64,8 +64,10 @@ jobs:
           git config user.email github-actions@github.com
           git status
           git add .
+          git status
           git commit -m "update version $VERSION"
           git remote -v
+          git push origin main
           
         
   # ci:
