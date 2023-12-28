@@ -6,7 +6,7 @@ image:
   # arch: amd64
   registry: "ghcr.io"
   repository: "silhouetteua"
-  tag: "v1.0.6-a5139a3"
+  tag: "v1.0.6-5817506"
   os: linux
   arch: amd64
 env:
