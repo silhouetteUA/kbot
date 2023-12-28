@@ -62,7 +62,9 @@ jobs:
           mv ../secret-encrypted.yaml cluster/fluxcd-gke/resources
           git config user.name github-actions
           git config user.email github-actions@github.com
-          git commit -am "update version $VERSION"
+          git status
+          git add .
+          git commit -m "update version $VERSION"
           git remote -v
           
           
