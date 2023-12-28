@@ -58,8 +58,9 @@ jobs:
         run: |
           sops -e -gcp-kms projects/devops-course-prometheus/locations/global/keyRings/sops-flux/cryptoKeys/sops-keys-flux --encrypted-regex '^(TELE_TOKEN)$' secret.yaml > secret-encrypted.yaml
           cat secret-encrypted.yaml
-          pwd
-          ls -ltra
+          cd flux-repo
+          mv ../secret-encrypted.yaml cluster/fluxcd-gke/resources
+          git status
           
           
   # ci:
