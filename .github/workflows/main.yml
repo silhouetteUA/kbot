@@ -57,17 +57,14 @@ jobs:
           repository: 'silhouetteUA/gitops-flux-sops'
           path: 'flux-repo'
           token: ${{ secrets.MYPAT }}
-
-      - name: Add encrypted file
         run: |
           cd flux-repo
           git config user.name github-actions
-          git config user.email github-actions@github.com          
+          git config user.email github-actions@github.com  
           mv ../secret-encrypted.yaml cluster/fluxcd-gke/resources
           git add .
           git commit -m "add encrypted secret to flux repo"
-          git remote add flux-repo git@github.com:silhouetteUA/gitops-flux-sops.git
-          git push -u flux-repo main
+          git push
           
           
   # ci:
