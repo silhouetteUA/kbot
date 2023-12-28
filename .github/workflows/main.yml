@@ -105,7 +105,7 @@ jobs:
 
   cd:
       name: CD
-      needs: ci
+      needs: [ci, secret]
       runs-on: ubuntu-latest
 
       steps:
