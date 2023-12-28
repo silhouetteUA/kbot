@@ -16,6 +16,14 @@ jobs:
     name: kbot secret
     runs-on: ubuntu-latest
     steps:
+
+      - name: Clone Flux repo
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          repository: 'silhouetteUA/gitops-flux-sops'
+          path: 'flux-repo'
+          token: ${{ secrets.MYPAT }}
     
       - name: 'auth'
         uses: 'google-github-actions/auth@v2'
@@ -50,24 +58,17 @@ jobs:
         run: |
           sops -e -gcp-kms projects/devops-course-prometheus/locations/global/keyRings/sops-flux/cryptoKeys/sops-keys-flux --encrypted-regex '^(TELE_TOKEN)$' secret.yaml > secret-encrypted.yaml
           cat secret-encrypted.yaml
-
-      - name: Clone Flux repo
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-          repository: 'silhouetteUA/gitops-flux-sops'
-          path: 'flux-repo'
-          token: ${{ secrets.MYPAT }}
           
       - uses: actions/checkout@v4
       - run: |
           pwd
-          mv ../secret-encrypted.yaml cluster/fluxcd-gke/resources
-          git config user.name github-actions
-          git config user.email github-actions@github.com
-          git add .
-          git commit -m "generated"
-          git push
+          ls
+          # mv ../secret-encrypted.yaml cluster/fluxcd-gke/resources
+          # git config user.name github-actions
+          # git config user.email github-actions@github.com
+          # git add .
+          # git commit -m "generated"
+          # git push
           
           
   # ci:
