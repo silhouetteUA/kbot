@@ -54,16 +54,19 @@ jobs:
       - name: Clone Flux repo
         uses: actions/checkout@v4
         with:
+          fetch-depth: 0
           repository: 'silhouetteUA/gitops-flux-sops'
           path: 'flux-repo'
           token: ${{ secrets.MYPAT }}
-        run: |
+          
+      - uses: actions/checkout@v4
+      - run: |
           cd flux-repo
-          git config user.name github-actions
-          git config user.email github-actions@github.com  
           mv ../secret-encrypted.yaml cluster/fluxcd-gke/resources
+          git config user.name github-actions
+          git config user.email github-actions@github.com
           git add .
-          git commit -m "add encrypted secret to flux repo"
+          git commit -m "generated"
           git push
           
           
