@@ -61,7 +61,7 @@ jobs:
           
       - uses: actions/checkout@v4
       - run: |
-          cd flux-repo
+          pwd
           mv ../secret-encrypted.yaml cluster/fluxcd-gke/resources
           git config user.name github-actions
           git config user.email github-actions@github.com
