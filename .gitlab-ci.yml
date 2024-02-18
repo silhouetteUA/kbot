@@ -1,0 +1,96 @@
+stages:
+  - test
+  - build_app
+  - build_push_image
+
+variables:
+  EXECUTION_IMAGE: "golang:1.21.5"
+  SUPPORT_IMAGE: "docker:24.0.7"
+  SUPPORT_SERVICE: "docker:24.0.7-dind"
+  GIT_DEPTH: "0"
+ # default values (override them with "run pipeline")
+  OS: "linux"
+  ARCH: "arm64"
+
+
+
+run tests:
+  stage: test
+  image: $EXECUTION_IMAGE
+  before_script:
+  - apt-get update && apt-get install -y make
+  - echo "APP_NAME=$(basename -s .git $(git remote get-url origin))" >> build.env
+  - echo "APP_VERSION=$(git describe --tags --abbrev=0)" >> build.env
+  - echo "APP_HASH=$(git rev-parse --short HEAD)" >> build.env
+  script:
+    - |
+      if [ "$OS" == "linux" ]; then
+        if [ "$ARCH" == "amd64" ] || [ "$ARCH" == "arm64" ]; then
+          echo "Building OS=$OS with ARCH=$ARCH"
+        else
+          echo "Invalid ARCH value for Linux"
+          exit 1
+        fi
+      elif [ "$OS" == "windows" ]; then
+        if [ "$ARCH" == "amd64" ]; then
+          echo "Building OS=$OS with ARCH=$ARCH"
+        else
+          echo "Invalid ARCH value for Windows"
+          exit 1
+        fi
+      elif [ "$OS" == "darwin" ]; then
+        if [ "$ARCH" == "arm64" ]; then
+          echo "Building OS=$OS with ARCH=$ARCH"
+        else
+          echo "Invalid ARCH value for MacOS"
+          exit 1
+        fi
+      else
+        echo "Invalid OS value"
+        exit 1
+      fi
+    - make test
+  artifacts:
+    when: on_success
+    reports:
+      dotenv: build.env
+
+
+build artifact:
+  stage: build_app
+  image: $EXECUTION_IMAGE
+  before_script:
+    - echo $APP_NAME
+    - echo $APP_VERSION
+    - echo $APP_HASH
+  script:
+    - CGO_ENABLED=0 GOOS=$OS GOARCH=$ARCH go build -v -o kbot -ldflags "-X="github.com/silhouetteUA/kbot/cmd.appVersion=$APP_VERSION
+  artifacts:
+    when: on_success
+    paths:
+      - kbot
+  dependencies:
+    - run tests
+
+build and push image:
+# Hence dependencies are specified, both JOBS with arfifacts should be included in order to download build.env and kbot dependencies
+  stage: build_push_image
+  image: $SUPPORT_IMAGE
+  services:
+    - $SUPPORT_SERVICE
+  before_script:
+  - echo $APP_NAME
+  - echo $APP_VERSION
+  - echo $APP_HASH
+  - echo "$DOCKER_PASSWORD" | docker login -u $DOCKER_USER --password-stdin
+  script:
+    - docker build . -t $DOCKER_USER/$APP_NAME:$APP_VERSION-$APP_HASH-$OS-$ARCH
+    - docker push $DOCKER_USER/$APP_NAME:$APP_VERSION-$APP_HASH-$OS-$ARCH
+  # needs:
+    # - job: run tests
+    #   artifacts: true
+    # - job: build artifact
+    #   artifacts: true
+  dependencies:
+    - run tests
+    - build artifact
