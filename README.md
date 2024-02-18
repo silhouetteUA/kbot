@@ -11,7 +11,7 @@ t.me/yevheniifirsteverbot_bot <br>
 
 build + start:  
 silhouetteUA ➜ /workspaces/kbot (main) $ go build -ldflags "-X="github.com/silhouetteUA/kbot/cmd.appVersion=v1.0.2  
-@silhouetteUA ➜ /workspaces/kbot (main) $ ./kbot start  
+silhouetteUA ➜ /workspaces/kbot (main) $ ./kbot start  
 
 
 
