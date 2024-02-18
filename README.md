@@ -1,5 +1,5 @@
 # kbot
-devops week2, go application from scratch
+Golang application from scratch
 
 
 ![Build Status](https://github.com/silhouetteUA/kbot/workflows/CI/CD%20for%20kbot/badge.svg)
